@@ -103,7 +103,7 @@ class TasksController extends Controller
      */
     public function destroy(Tasks $task)
     {
-        Log::info($task);
+        //Log::info($task);
         
         if($task->delete()){
             return response()->json([

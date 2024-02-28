@@ -6,6 +6,7 @@ import moment from 'moment';
 import { defineProps } from 'vue';
 import { EyeIcon, TrashIcon } from 'vue-tabler-icons';
 import TaskDelete from '@/Components/Tasks/TaskDelete.vue';
+import TaskCard from '@/Components/Tasks/TaskCard.vue';
 
 
 const props = defineProps([
@@ -36,38 +37,8 @@ const getFormattedDate = (date) => {
                         <v-container fluid>
                             <v-row>
                                 <v-col cols="4" lg="3" v-for="task in tasks" :key="task.id">
-                                    <v-card
-                                    class="mx-auto my-4"
-                                    max-width="344"
-                                    elevation="16"
                                     
-                                    >
-                                        <v-card-item>
-                                        <v-card-title class="">
-                                            {{ task.title }}
-                                        </v-card-title>
-                                        <v-card-subtitle>
-                                            {{ task.description }}
-                                        </v-card-subtitle>
-                                        </v-card-item>
-                                        <v-divider></v-divider>
-                                        <span class="caption text-no-wrap mx-4" color="cyan" label>{{ getFormattedDate(task.created_at) }} </span>
-
-                                        <v-card-actions class="mx-2">
-                                            <Link :href="route('tasks.show', task.id)">
-                                                <v-btn color="primary" variant="tonal">
-                                                    <EyeIcon /> &nbsp; View
-                                                </v-btn>
-                                            </Link>
-                                            <v-spacer></v-spacer>
-                                                <!-- <v-btn color="error" variant="tonal">
-                                                    <TrashIcon/>
-                                                    Delete
-                                                </v-btn> -->
-                                                <TaskDelete :task="task"/>
-
-                                        </v-card-actions>
-                                    </v-card>
+                                    <TaskCard  :task="task"/>
                                 </v-col>
                             </v-row>
                         </v-container>
