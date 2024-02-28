@@ -93,9 +93,25 @@ class TasksController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tasks $tasks)
+    public function update(Request $request, Tasks $task)
     {
-        //
+        Log::info($request->all());
+        $data = $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            
+        ]);
+        
+        if($task->update($data)){
+            return response()->json([
+                'Status' => 'Success', 
+                'message' => 'Campaign updated successfully']);
+        }else{
+            return response()->json([
+                'Status' => 'Failed',
+                'message' => 'Campaign update failed']);
+        }
+        return redirect()->back();
     }
 
     /**

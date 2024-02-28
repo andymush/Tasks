@@ -15,8 +15,6 @@ const props = defineProps([
     'users',
 ]);
 
-console.log(props.tasks);
-console.log(props.task_count);
 
 const getFormattedDate = (date) => {
     return moment(date).format("MMM Do YYYY");
@@ -37,7 +35,6 @@ const getFormattedDate = (date) => {
                         <v-container fluid>
                             <v-row>
                                 <v-col cols="4" lg="3" v-for="task in tasks" :key="task.id">
-                                    
                                     <TaskCard  :task="task"/>
                                 </v-col>
                             </v-row>
