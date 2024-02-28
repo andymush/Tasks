@@ -24,7 +24,7 @@ const submit = () => {
         if (response.data.Status == 'Success') {
             taskCreatedAlertDialog.value = true;
             setTimeout(() => {
-                taskCreatedAlertDialog.value = true;
+                taskCreatedAlertDialog.value = false;
             }, 1500);
             router.reload();
         } else {
@@ -53,6 +53,7 @@ const submit = () => {
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn color="primary"
               v-bind="activatorProps"
+              width="50%"
               >Create Task</v-btn>
             </template>
   

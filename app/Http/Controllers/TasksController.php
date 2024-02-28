@@ -15,13 +15,26 @@ class TasksController extends Controller
      */
     public function index()
     {
-         $users = User::select('id','name')->get();
+        $tasks = Tasks::limit(3)->get();
+        $task_count = Tasks::count();
+        $users = User::select('id','name')->get();
+        
+        return Inertia::render('Dashboard', [
+            'tasks' => $tasks,
+            'task_count' => $task_count,
+            'users' => $users
+        ]);
+        
+    }
+
+    public function getTasks()
+    {
+        $users = User::select('id','name')->get();
         $tasks = Tasks::select('id','title','description','user_id')->get();
         
         return Inertia::render('Tasks/Index')
             ->with('users', $users)
             ->with('tasks', $tasks);
-        
     }
 
     /**
@@ -49,31 +62,15 @@ class TasksController extends Controller
             'status' => 'pending',
         ]);
 
-        // return Inertia::render('Tasks/Index')
-        //     ->with('success', 'Task created successfully');
-        // return response()->json([
-        //     'Status' => 'success',
-        //     'Message' => 'Task created successfully']);
-
-            // if($campaign->update($data)){
-            //     return response()->json([
-            //         'Status' => 'Success', 
-            //         'message' => 'Campaign updated successfully']);
-            // }else{
-            //     return response()->json([
-            //         'Status' => 'Failed',
-            //         'message' => 'Campaign update failed']);
-            // }
-
-            if($task){
-                return response()->json([
-                    'Status' => 'Success', 
-                    'message' => 'Task created successfully']);
-            }else{
-                return response()->json([
-                    'Status' => 'Failed',
-                    'message' => 'Task creation failed']);
-            }
+        if($task){
+            return response()->json([
+                'Status' => 'Success', 
+                'message' => 'Task created successfully']);
+        }else{
+            return response()->json([
+                'Status' => 'Failed',
+                'message' => 'Task creation failed']);
+        }
         
     }
 
@@ -104,8 +101,20 @@ class TasksController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tasks $tasks)
+    public function destroy(Tasks $task)
     {
-        //
+        Log::info($task);
+        
+        if($task->delete()){
+            return response()->json([
+                'Status' => 'Success', 
+                'message' => 'task deleted successfully']);
+        }else{
+            return response()->json([
+                'Status' => 'Failed',
+                'message' => 'task deletion failed']);
+        }
+
+        return redirect()->back();
     }
 }
