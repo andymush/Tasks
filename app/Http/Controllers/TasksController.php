@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use Auth;
 
 class TasksController extends Controller
 {
@@ -15,12 +16,15 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Tasks::limit(3)->get();
+        $myTasks = Tasks::where('Owner_id', Auth::id())->limit(3)->get();
+        $assignedTasks = Tasks::where('User_id', Auth::id())->get();
         $task_count = Tasks::count();
         $users = User::select('id','name')->get();
+
         
         return Inertia::render('Dashboard', [
-            'tasks' => $tasks,
+            'tasks' => $myTasks,
+            'assignedTasks' => $assignedTasks,
             'task_count' => $task_count,
             'users' => $users
         ]);
@@ -30,7 +34,7 @@ class TasksController extends Controller
     public function getTasks()
     {
         $users = User::select('id','name')->get();
-        $tasks = Tasks::select('id','title','description','user_id')->get();
+        $tasks = Tasks::select('id','title','description','user_id','status')->get();
         
         return Inertia::render('Tasks/Index')
             ->with('users', $users)
@@ -58,8 +62,9 @@ class TasksController extends Controller
         $task = Tasks::create([
             'title' => $request->title,
             'description' => $request->description,
-            'User_id' => $request->user_id,
+            'User_id' => $request->User_id,
             'status' => 'pending',
+            'Owner_id' => Auth::id()
         ]);
 
         if($task){
@@ -111,6 +116,18 @@ class TasksController extends Controller
                 'Status' => 'Failed',
                 'message' => 'Campaign update failed']);
         }
+        return redirect()->back();
+    }
+
+    public function updateProgress(Request $request, Tasks $task)
+    {
+        Log::info($request);
+        Log::info($task);
+
+        $task->update([
+            'status' => $request->status
+        ]);
+
         return redirect()->back();
     }
 

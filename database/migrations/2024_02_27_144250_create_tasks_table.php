@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('status')->default('incomplete');
             $table->integer('User_id')->unsigned()->nullable();
             $table->foreign('User_id')->references('id')->on('users');
+            $table->integer('Owner_id')->unsigned();
+            $table->foreign('Owner_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });

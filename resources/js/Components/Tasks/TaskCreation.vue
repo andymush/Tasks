@@ -18,7 +18,6 @@ const taskCreatedAlertDialog = ref(false);
 const taskFailedAlertDialog = ref(false);
 
 const submit = () => {
-    console.log(task.value);
     axios.post(route('tasks.store'), task.value)
     .then(response => {
         if (response.data.Status == 'Success') {

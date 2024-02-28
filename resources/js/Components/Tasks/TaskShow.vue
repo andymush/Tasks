@@ -24,15 +24,11 @@ const updatedTask = useForm({
     userId,
 })
 
-
 const taskUpdatedAlertDialog = ref(false);
 const taskFailedAlertDialog = ref(false);
 
-
 function updateTask ()
 {
-    console.log('updating the task now')
-    console.log(props.task)
     axios.post(route('task.update', {task: props.task.id}), updatedTask)
     .then(response => {
         console.log('response:', response);
@@ -71,12 +67,15 @@ function updateTask ()
                     variant="tonal"
                     v-bind="activatorProps"
                 >
-                    <EyeIcon /> &nbsp; View it
+                    <EyeIcon /> &nbsp; View
                 </v-btn>
             </template>
   
             <template v-slot:default="{ isActive }">
               <v-card>
+                <!-- <v-card-title >
+                   ASSIGNED TO : {{ task.user_id }}
+                </v-card-title> -->
                 <v-card-item>
                     <v-text-field
                         v-model="updatedTask.title"

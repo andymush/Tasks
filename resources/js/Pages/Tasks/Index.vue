@@ -28,7 +28,7 @@ const getFormattedDate = (date) => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="flex items center justify-center">
-                            <h3 class="font-semibold text-xl text-gray-800 leading-tight mb-3">Tasks</h3>
+                            <h3 class="font-semibold text-xl text-gray-800 leading-tight mb-3">Tasks List</h3>
                         </div>
                         <div class="flex items center justify-center">
                             <TaskCreation :users="users" />
@@ -41,8 +41,8 @@ const getFormattedDate = (date) => {
                                 </v-col>
                             </v-row>
                         </v-container>
-                        <p v-if="props.tasks && props.tasks.length === 0">
-                            Create a task
+                        <p v-if="props.tasks && props.tasks.length === 0" class="text-center">
+                            You have no tasks
                         </p>
                     </div>
                 </div>

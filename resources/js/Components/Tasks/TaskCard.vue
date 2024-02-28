@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import moment from 'moment';
 import { EyeIcon, TrashIcon } from 'vue-tabler-icons';
@@ -15,6 +15,21 @@ const getFormattedDate = (date) => {
 };
 
 
+
+// const chipVariant = computed(() => {
+//   switch (task.status) {
+//     case 'Pending':
+//       return { variant: 'outlined', color: 'warning' };
+//     case 'InProgress':
+//       return { variant: 'outlined', color: 'info' };
+//     case 'Completed':
+//       return { variant: 'outlined', color: 'success' };
+//     default:
+//       return { variant: 'outlined', color: '' }; 
+//   }
+// });
+
+
 </script>
 
 <template>
@@ -23,17 +38,25 @@ const getFormattedDate = (date) => {
         max-width="344"
         elevation="16"
         >
-            <v-card-item>
-            <v-card-title class="">
-                {{ task.title }}
+            <v-card-title>
+                <v-chip
+                    variant="outlined"
+                >
+                    {{ task.status }}
+                </v-chip>
             </v-card-title>
-            <v-card-subtitle>
-                {{ task.description }}
-            </v-card-subtitle>
+            <v-card-item>
+                <v-card-title class="text-h4">
+                    {{ task.title }}
+                </v-card-title>
+                <v-card-subtitle>
+                    {{ task.description }}
+                </v-card-subtitle>
+                <v-chip>
+                    {{ getFormattedDate(task.created_at) }} 
+                </v-chip>
             </v-card-item>
             <v-divider></v-divider>
-            <span class="caption text-no-wrap mx-4" color="cyan" label>{{ getFormattedDate(task.created_at) }} </span>
-
             <v-card-actions class="mx-2">
                 <TaskShow :task="task"/>
                 <v-spacer></v-spacer>
