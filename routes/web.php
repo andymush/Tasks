@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/task/{task}', [TasksController::class, 'update'])->name('task.update');
     Route::delete('/task/{task}', [TasksController::class, 'destroy'])->name('task.destroy');
 
-    Route::post('/task/{task}', [TasksController::class, 'updateProgress'])->name('task.update.progress');
+    Route::post('/task-progress/{task}', [TasksController::class, 'updateProgress'])->name('task.update.progress');
 
 });
 

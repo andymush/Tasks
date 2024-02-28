@@ -52,6 +52,12 @@ function updateProgress() {
                 >
                     {{ task.status }}
                 </v-chip>
+                &nbsp;
+                <v-chip
+                    variant="tonal"
+                >
+                    {{ task.marks }} - Marks
+                </v-chip>
             </v-card-title>
             <v-card-item>
                 <v-card-title class="text-h4">

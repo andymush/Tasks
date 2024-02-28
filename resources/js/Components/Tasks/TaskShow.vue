@@ -11,17 +11,22 @@ const props = defineProps({
 const title = ref(props.task.title)
 const description = ref(props.task.description)
 const userId = ref(props.task.user_id)
+const marks = ref(props.task.marks)
+const status = ref(props.task.status)
 
 const form = reactive({
     title,
     description,
     userId,
+    marks,
 })
 
 const updatedTask = useForm({
     title,
     description,
     userId,
+    marks,
+    status,
 })
 
 const taskUpdatedAlertDialog = ref(false);
@@ -45,7 +50,6 @@ function updateTask ()
             }, 2000);
             router.reload();
         }
-        
     })
     .catch(error => {
         console.error('error:', error);
@@ -97,6 +101,18 @@ function updateTask ()
                             :value="user.id"
                         ></v-radio>
                     </v-radio-group> -->
+
+                    <v-text-field
+                    v-model="updatedTask.marks"
+                    label="Marks"
+                    type="number"
+                    />
+
+                    <v-text-field
+                    label="Status"
+                    v-model="status"
+                    readonly
+                    />
 
 
                 </v-card-item>

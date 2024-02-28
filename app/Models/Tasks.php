@@ -19,7 +19,8 @@ class Tasks extends Model
         'description',
         'status',
         'User_id',
-        'Owner_id'
+        'Owner_id',
+        'marks'
     ];
 
     public function user()

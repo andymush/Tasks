@@ -54,7 +54,6 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-         Log::info($request->all());
         $request->validate([
             'title' => 'required',
         ]);
@@ -76,7 +75,6 @@ class TasksController extends Controller
                 'Status' => 'Failed',
                 'message' => 'Task creation failed']);
         }
-        
     }
 
     /**
@@ -100,14 +98,17 @@ class TasksController extends Controller
      */
     public function update(Request $request, Tasks $task)
     {
-        Log::info($request->all());
-        $data = $this->validate($request, [
+        $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            
         ]);
         
-        if($task->update($data)){
+        if($task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+            'marks' => $request->marks
+        ])){
             return response()->json([
                 'Status' => 'Success', 
                 'message' => 'Campaign updated successfully']);
@@ -121,15 +122,13 @@ class TasksController extends Controller
 
     public function updateProgress(Request $request, Tasks $task)
     {
-        Log::info($request);
-        Log::info($task);
-
         $task->update([
             'status' => $request->status
         ]);
 
         return redirect()->back();
     }
+
 
     /**
      * Remove the specified resource from storage.
