@@ -20,7 +20,8 @@ The app is a simple task manager that allows users to create, read, update and d
 * PHP 8.0
 * Git 
 * Composer
-* Node.js
+* Node.js v18.0 or higher
+* NPM v9.0 or higher
 * NPM
 * MySQL
 * XAMPP or WAMP server
@@ -63,7 +64,7 @@ To run the app locally, follow the steps below:
 
     php artisan db:seed
 
-9. Run the server on two terminals
+9. Run the server on two separate terminals
 
     terminal 1 - php artisan serve 
     terminal 2 - npm run dev
