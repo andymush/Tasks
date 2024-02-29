@@ -16,12 +16,44 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $myTasks = Tasks::where('Owner_id', Auth::id())->limit(3)->get();
-        $assignedTasks = Tasks::where('User_id', Auth::id())->get();
+        //$myTasks = Tasks::where('Owner_id', Auth::id())->limit(3)->get();
+        $myTasks = Tasks::where('Owner_id', Auth::id())
+        ->select(
+            'tasks.id',
+            'tasks.title',
+            'tasks.description',
+            'tasks.User_id',
+            'tasks.Owner_id',
+            'tasks.status',
+            'tasks.marks',
+            'owner.name as owner_name',
+            'user.name as assigned_user_name'
+        )
+        ->join('users as owner', 'owner.id', '=', 'tasks.Owner_id')
+        ->leftJoin('users as user', 'user.id', '=', 'tasks.User_id')
+        ->limit(3)
+        ->get();
+
+        $assignedTasks = Tasks::where('User_id', Auth::id())
+        ->select(
+            'tasks.id',
+            'tasks.title',
+            'tasks.description',
+            'tasks.User_id',
+            'tasks.Owner_id',
+            'tasks.status',
+            'tasks.marks',
+            'owner.name as owner_name',
+            'user.name as assigned_user_name'
+        )
+        ->join('users as owner', 'owner.id', '=', 'tasks.Owner_id')
+        ->leftJoin('users as user', 'user.id', '=', 'tasks.User_id')
+        ->limit(3)
+        ->get();
+
         $task_count = Tasks::count();
         $users = User::select('id','name')->get();
 
-        
         return Inertia::render('Dashboard', [
             'tasks' => $myTasks,
             'assignedTasks' => $assignedTasks,
@@ -34,7 +66,20 @@ class TasksController extends Controller
     public function getTasks()
     {
         $users = User::select('id','name')->get();
-        $tasks = Tasks::select('id','title','description','user_id','status')->get();
+        $tasks = Tasks::select(
+            'tasks.id',
+            'tasks.title',
+            'tasks.description',
+            'tasks.User_id',
+            'tasks.Owner_id',
+            'tasks.marks',
+            'tasks.status',
+            'owner.name as owner_name',
+            'user.name as assigned_user_name'
+        )
+        ->join('users as owner', 'owner.id', '=', 'tasks.Owner_id')
+        ->leftJoin('users as user', 'user.id', '=', 'tasks.User_id')
+        ->get();
         
         return Inertia::render('Tasks/Index')
             ->with('users', $users)
@@ -107,7 +152,8 @@ class TasksController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
-            'marks' => $request->marks
+            'marks' => $request->marks,
+            'User_id' => $request->userId,
         ])){
             return response()->json([
                 'Status' => 'Success', 

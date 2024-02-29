@@ -63,11 +63,14 @@ function updateProgress() {
                 <v-card-title class="text-h4">
                     {{ task.title }}
                 </v-card-title>
-                <v-card-subtitle>
-                    {{ task.description }}
-                </v-card-subtitle>
+                <v-chip 
+                    variant="outlined"
+                    class="mb-2"
+                >
+                    Assigned by: {{ task.owner_name === $page.props.auth.user.name ? 'You' : (task.owner_name ? task.owner_name : '-')}}
+                </v-chip>
                 <v-chip>
-                    {{ getFormattedDate(task.created_at) }} 
+                    Date - {{ getFormattedDate(task.created_at) }} 
                 </v-chip>
             </v-card-item>
             <v-divider></v-divider>
@@ -77,15 +80,32 @@ function updateProgress() {
                         <v-btn
                         v-bind="activatorProps"
                         color="surface-variant"
-                        text="Update Task"
+                        text="View Task"
                         variant="flat"
                         ></v-btn>
                     </template>
 
                     <template v-slot:default="{ isActive }">
-                        <v-card title="State of Progress">
+                        <v-card  class="pa-4">
+                            <v-text-field
+                                label="Task Name"
+                                v-model="task.title"
+                                readonly
+                            ></v-text-field>
+                            <v-textarea
+                                label="Task Description"
+                                v-model="task.description"
+                                readonly
+                            ></v-textarea>
+                            <v-text-field
+                                label="Marks"
+                                v-model="task.marks"
+                                readonly
+                            ></v-text-field>
+                            <v-divider></v-divider>
+                            
                             <v-select
-                                label="Select"
+                                label="Update Progress *"
                                 :items="['Pending','InProgress','Completed']"
                                 v-model="newProgress.status"
                             ></v-select>
@@ -96,7 +116,7 @@ function updateProgress() {
                             variant="elevated"
                             color="success"
                             >
-                                Update
+                                Update Progress
                             </v-btn>
                             <v-spacer></v-spacer>
 

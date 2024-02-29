@@ -45,7 +45,7 @@ const getFormattedDate = (date) => {
                             </p>
                             <v-row>
                                 <v-col cols="4" lg="3" v-for="task in tasks" :key="task.id">
-                                    <TaskCard  :task="task"/>
+                                    <TaskCard  :task="task" :users="users"/>
                                 </v-col>
                             </v-row>
                         </v-container>
