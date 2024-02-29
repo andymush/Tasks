@@ -5,7 +5,8 @@ import axios from "axios";
 import {CheckIcon, AlertCircleIcon, UploadIcon } from "vue-tabler-icons";
 
 const props = defineProps({
-    task: Object
+    task: Object,
+    users: Array,
 })
 
 const title = ref(props.task.title)
@@ -17,14 +18,14 @@ const status = ref(props.task.status)
 const form = reactive({
     title,
     description,
-    userId,
+    userId: userId.value,
     marks,
 })
 
 const updatedTask = useForm({
     title,
     description,
-    userId,
+    userId: userId.value,
     marks,
     status,
 })
@@ -77,9 +78,6 @@ function updateTask ()
   
             <template v-slot:default="{ isActive }">
               <v-card>
-                <!-- <v-card-title >
-                   ASSIGNED TO : {{ task.user_id }}
-                </v-card-title> -->
                 <v-card-item>
                     <v-text-field
                         v-model="updatedTask.title"
@@ -92,7 +90,7 @@ function updateTask ()
                         required
                     ></v-textarea>
                     
-                    <!-- <v-radio-group v-model="updatedTask.userId">
+                    <v-radio-group v-model="updatedTask.userId" v-if="$page.props.auth.user.id === task.Owner_id">
                         <v-label class="">Assign to User (Optional)</v-label>
                         <v-radio
                             v-for="user in props.users"
@@ -100,8 +98,8 @@ function updateTask ()
                             :label="user.name"
                             :value="user.id"
                         ></v-radio>
-                    </v-radio-group> -->
-
+                    </v-radio-group>
+            
                     <v-text-field
                     v-model="updatedTask.marks"
                     label="Marks"
@@ -117,7 +115,9 @@ function updateTask ()
 
                 </v-card-item>
                 <v-card-actions class="justify-center">
-                    <v-btn color="success" class="mt-sm-0 mt-3" size="large"  variant="elevated" :prepend-icon="UploadIcon" @click=" () => { updateTask(); isActive.value = false; }">Update</v-btn>
+                    <v-btn color="success" class="mt-sm-0 mt-3" size="large"  variant="elevated" :prepend-icon="UploadIcon" @click=" () => { updateTask(); isActive.value = false; }" 
+                        v-if="$page.props.auth.user.id === task.Owner_id"
+                        >Update</v-btn>
                     <v-spacer></v-spacer>
                   <v-btn
                     text="Close"
